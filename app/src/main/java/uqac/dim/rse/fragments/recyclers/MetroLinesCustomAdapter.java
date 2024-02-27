@@ -1,9 +1,5 @@
-package uqac.dim.rse.fragments;
+package uqac.dim.rse.fragments.recyclers;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +8,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.InputStream;
-
 import uqac.dim.rse.DataManager;
 import uqac.dim.rse.DownloadImageTask;
 import uqac.dim.rse.R;
 import uqac.dim.rse.objects.Lines.MetroLine;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+public class MetroLinesCustomAdapter extends RecyclerView.Adapter<MetroLinesCustomAdapter.MetroListViewHolder> {
+
+    public static class MetroListViewHolder extends RecyclerView.ViewHolder {
 
         TextView textTitle;
         TextView textName;
@@ -28,7 +23,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         TextView textCount;
         ImageView imagePicto;
 
-        public MyViewHolder(View itemView) {
+        public MetroListViewHolder(View itemView) {
             super(itemView);
             this.textTitle = (TextView) itemView.findViewById(R.id.metro_list_card_title);
             this.textName = (TextView) itemView.findViewById(R.id.metro_list_card_long_name);
@@ -39,17 +34,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                           int viewType) {
+    public MetroListViewHolder onCreateViewHolder(ViewGroup parent,
+                                                  int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.metro_list_card_view, parent, false);
 
-        MyViewHolder myViewHolder = new MyViewHolder(view);
-        return myViewHolder;
+        MetroListViewHolder metroListViewHolder = new MetroListViewHolder(view);
+        return metroListViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
+    public void onBindViewHolder(final MetroListViewHolder holder, final int listPosition) {
         MetroLine metroLine = DataManager.instance.metroLines.get(DataManager.instance.metroLines.keySet().stream().sorted().toArray()[listPosition]);
 
         if (metroLine == null) {

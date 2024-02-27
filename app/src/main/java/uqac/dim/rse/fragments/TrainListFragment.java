@@ -1,7 +1,6 @@
 package uqac.dim.rse.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import uqac.dim.rse.R;
 import uqac.dim.rse.fragments.recyclers.MetroLinesCustomAdapter;
+import uqac.dim.rse.fragments.recyclers.TrainCustomAdapter;
 
-public class MetroListFragments extends Fragment {
+public class TrainListFragment extends Fragment {
 
     private static RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -34,9 +34,9 @@ public class MetroListFragments extends Fragment {
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapter = new MetroLinesCustomAdapter();
+        adapter = new TrainCustomAdapter();
         recyclerView.setAdapter(adapter);
+
         return result;
     }
 }
-

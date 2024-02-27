@@ -11,4 +11,8 @@
         android:id="@+id/metro_list_menu"
         android:title="Lignes de métros" />
 
+    <item
+        android:id="@+id/train_list_menu"
+        android:title="Rames de métros" />
+
 </menu>

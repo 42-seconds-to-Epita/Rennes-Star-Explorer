@@ -7,14 +7,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.google.android.gms.maps.model.Marker;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import uqac.dim.rse.fragments.CustomAdapter;
 import uqac.dim.rse.objects.Picto;
 
 public class DownloadImageTask extends AsyncTask<Picto, Void, Bitmap> {

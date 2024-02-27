@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
 
 import uqac.dim.rse.fragments.MetroListFragments;
+import uqac.dim.rse.fragments.TrainListFragment;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
@@ -104,9 +105,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
             fragmentManager.beginTransaction().hide(fragmentManager.findFragmentById(R.id.main_map_fragment)).commit();
-        } else {
+            if (fragmentManager.findFragmentByTag("trainListFragTag") != null) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("trainListFragTag")).commit();
+            }
+        } else if (id == R.id.map_menu){
             fragmentManager.beginTransaction().show(fragmentManager.findFragmentById(R.id.main_map_fragment)).commit();
 
+            if (fragmentManager.findFragmentByTag("metroListFragTag") != null) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("metroListFragTag")).commit();
+
+            }
+            if (fragmentManager.findFragmentByTag("trainListFragTag") != null) {
+                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("trainListFragTag")).commit();
+            }
+        } else if (id == R.id.train_list_menu) {
+            if (fragmentManager.findFragmentByTag("trainListFragTag") != null) {
+                fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("trainListFragTag")).commit();
+            } else {
+                fragmentManager.beginTransaction().add(R.id.fragment_container_view, new TrainListFragment(), "trainListFragTag").commit();
+            }
+
+            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentById(R.id.main_map_fragment)).commit();
             if (fragmentManager.findFragmentByTag("metroListFragTag") != null) {
                 fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("metroListFragTag")).commit();
             }

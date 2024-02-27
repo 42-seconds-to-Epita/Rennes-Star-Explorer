@@ -22,6 +22,7 @@ import uqac.dim.rse.objects.LineRoute;
 import uqac.dim.rse.objects.Lines.BusLine;
 import uqac.dim.rse.objects.Lines.MetroLine;
 import uqac.dim.rse.objects.Picto;
+import uqac.dim.rse.objects.SubwayTrain;
 import uqac.dim.rse.objects.markers.MetroStationMarker;
 
 public class DataManager {
@@ -37,6 +38,8 @@ public class DataManager {
     public HashMap<Integer, BusLine> busLines = new HashMap<>();
     public HashMap<Integer, MetroLine> metroLines = new HashMap<>();
     public HashMap<String, LineRoute> allLinesRoutes = new HashMap<>();
+
+    public List<SubwayTrain> subwayTrains = new ArrayList<>();
 
     public DataManager(MainActivity main) {
         this.main = main;
@@ -89,6 +92,7 @@ public class DataManager {
                             metroStationMarkers.put(temp.id, temp);
                         }
                         this.loadMapDataMetro2();
+                        this.subwayTrains();
                     } catch (ParseException ex) {
                         Log.i("DIM", "Error while parsing json 1");
                     }
@@ -297,5 +301,34 @@ public class DataManager {
                         Log.i("DIM", "Error while parsing json 5");
                     }
                 }, error -> Log.i("DIM", "Error while loading metro line 3"));
+    }
+
+    private void subwayTrains() {
+        // Subway trains https://data.explore.star.fr/explore/dataset/tco-metro-materiel-vehicules-td/information/?sort=-longueur
+        this.main.requestStarAPI("https://data.explore.star.fr/api/explore/v2.1/catalog/datasets/tco-metro-materiel-vehicules-td/records?limit=100",
+                response -> {
+                    try {
+                        JSONObject json = (JSONObject) parser.parse(response);
+                        for (Object object : ((JSONArray) Objects.requireNonNull(json.get("results")))) {
+                            JSONObject tempJson = (JSONObject) object;
+                            SubwayTrain train = new SubwayTrain();
+                            train.name = (String) tempJson.get("nom");
+                            train.id =  Integer.parseInt(String.valueOf((Long) tempJson.get("numero")));
+                            train.brand = (String) tempJson.get("marque");
+                            train.model = (String) tempJson.get("modele");
+                            train.version = (String) tempJson.get("version");
+                            train.length = Integer.parseInt(String.valueOf((Long) tempJson.get("longueur")));
+                            train.seatingCapacity = Integer.parseInt(String.valueOf((Long)tempJson.get("placesassises")));
+                            train.standingCapacity = Integer.parseInt(String.valueOf((Long)tempJson.get("placesdebout")));
+                            train.pmrCapacity = Integer.parseInt(String.valueOf((Long)tempJson.get("nombreplacesufr")));
+                            train.commissioningDate = (String) tempJson.get("datemiseservice");
+                            train.idLine = Integer.parseInt((String) tempJson.get("idligne"));
+
+                            this.subwayTrains.add(train);
+                        }
+                    } catch (ParseException ex) {
+                        Log.i("DIM", "Error while parsing json 2");
+                    }
+                }, error -> Log.i("DIM", "Error while loading metro stations 2"));
     }
 }
