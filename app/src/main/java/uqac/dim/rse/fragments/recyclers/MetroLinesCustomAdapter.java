@@ -6,14 +6,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 import uqac.dim.rse.DataManager;
 import uqac.dim.rse.DownloadImageTask;
+import uqac.dim.rse.MainActivity;
 import uqac.dim.rse.R;
+import uqac.dim.rse.fragments.RouteListFragments;
 import uqac.dim.rse.objects.Lines.MetroLine;
 
 public class MetroLinesCustomAdapter extends RecyclerView.Adapter<MetroLinesCustomAdapter.MetroListViewHolder> {
+
+    RecyclerView recyclerView;
+
+    public MetroLinesCustomAdapter(RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
+    }
 
     public static class MetroListViewHolder extends RecyclerView.ViewHolder {
 
@@ -39,6 +50,8 @@ public class MetroLinesCustomAdapter extends RecyclerView.Adapter<MetroLinesCust
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.metro_list_card_view, parent, false);
 
+        view.setOnClickListener(v -> onClick(view));
+
         MetroListViewHolder metroListViewHolder = new MetroListViewHolder(view);
         return metroListViewHolder;
     }
@@ -62,5 +75,22 @@ public class MetroLinesCustomAdapter extends RecyclerView.Adapter<MetroLinesCust
     @Override
     public int getItemCount() {
         return DataManager.instance.metroLines.size();
+    }
+
+    public void onClick(final View view) {
+        int itemPosition = this.recyclerView.getChildLayoutPosition(view);
+        MetroLine item = DataManager.instance.metroLines.get(DataManager.instance.metroLines.keySet().stream().sorted().toArray()[itemPosition]);
+
+        MainActivity.instance.hideAllFragments();
+        FragmentManager fragmentManager = MainActivity.instance.getSupportFragmentManager();
+        if (fragmentManager.findFragmentByTag("routeListFragTag") != null) {
+            fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("routeListFragTag")).commit();
+        } else {
+            fragmentManager.beginTransaction().add(R.id.fragment_container_view, new RouteListFragments(item.routes.values()), "routeListFragTag").commit();
+        }
+
+        if (RouteLinesCustomAdapter.instance != null) {
+            RouteLinesCustomAdapter.instance.routes = new ArrayList<>(item.routes.values());
+        }
     }
 }

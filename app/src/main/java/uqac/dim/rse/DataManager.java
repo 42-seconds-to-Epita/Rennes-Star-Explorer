@@ -31,7 +31,7 @@ public class DataManager {
     private MainActivity main;
     private JSONParser parser = new JSONParser();
 
-    public List<AMarker> allMarkers = new ArrayList<>();
+    public HashMap<Integer, AMarker> allMarkers = new HashMap<>();
     public HashMap<Integer, MetroStationMarker> metroStationMarkers = new HashMap<>();
 
     public HashMap<Integer, ALine> allLines = new HashMap<>();
@@ -90,6 +90,7 @@ public class DataManager {
 
                             temp.addMarker(main.getMap());
                             metroStationMarkers.put(temp.id, temp);
+                            allMarkers.put(temp.id, temp);
                         }
                         this.loadMapDataMetro2();
                         this.subwayTrains();
@@ -118,6 +119,7 @@ public class DataManager {
                             }
 
                             this.metroStationMarkers.get(generalInt).subStationsId.add(subInt);
+                            this.allMarkers.put(subInt, this.metroStationMarkers.get(generalInt));
                         }
                         this.loadLinesData();
                     } catch (ParseException ex) {
@@ -145,6 +147,7 @@ public class DataManager {
                             metroLine.color = (String) tempJson.get("couleurligne");
 
                             this.metroLines.put(metroLine.id, metroLine);
+                            this.allLines.put(metroLine.id, metroLine);
                         }
                         this.loadMetroData2();
                     } catch (ParseException ex) {
@@ -189,8 +192,8 @@ public class DataManager {
                                             ((JSONObject) Objects.requireNonNull(tempJson.get("parcours")))
                                                     .get("geometry"))).get("coordinates")))) {
                                 JSONArray temp = (JSONArray) object2;
-                                lineRoute.drawPoints.put(id, new Pair<>((Double) temp.get(0),
-                                        (Double) temp.get(1)));
+                                lineRoute.drawPoints.put(id, new LatLng((Double) temp.get(1),
+                                        (Double) temp.get(0)));
                                 id += 1;
                             }
 
@@ -313,14 +316,14 @@ public class DataManager {
                             JSONObject tempJson = (JSONObject) object;
                             SubwayTrain train = new SubwayTrain();
                             train.name = (String) tempJson.get("nom");
-                            train.id =  Integer.parseInt(String.valueOf((Long) tempJson.get("numero")));
+                            train.id = Integer.parseInt(String.valueOf((Long) tempJson.get("numero")));
                             train.brand = (String) tempJson.get("marque");
                             train.model = (String) tempJson.get("modele");
                             train.version = (String) tempJson.get("version");
                             train.length = Integer.parseInt(String.valueOf((Long) tempJson.get("longueur")));
-                            train.seatingCapacity = Integer.parseInt(String.valueOf((Long)tempJson.get("placesassises")));
-                            train.standingCapacity = Integer.parseInt(String.valueOf((Long)tempJson.get("placesdebout")));
-                            train.pmrCapacity = Integer.parseInt(String.valueOf((Long)tempJson.get("nombreplacesufr")));
+                            train.seatingCapacity = Integer.parseInt(String.valueOf((Long) tempJson.get("placesassises")));
+                            train.standingCapacity = Integer.parseInt(String.valueOf((Long) tempJson.get("placesdebout")));
+                            train.pmrCapacity = Integer.parseInt(String.valueOf((Long) tempJson.get("nombreplacesufr")));
                             train.commissioningDate = (String) tempJson.get("datemiseservice");
                             train.idLine = Integer.parseInt((String) tempJson.get("idligne"));
 

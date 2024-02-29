@@ -1,6 +1,6 @@
 package uqac.dim.rse.objects;
 
-import android.util.Pair;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.HashMap;
 
@@ -19,6 +19,6 @@ public class LineRoute {
     public double length;
     public String color;
 
-    public HashMap<Integer, Pair<Double, Double>> drawPoints = new HashMap<>();
+    public HashMap<Integer, LatLng> drawPoints = new HashMap<>();
     public HashMap<Integer, AMarker> commercialsStops = new HashMap<>();
 }

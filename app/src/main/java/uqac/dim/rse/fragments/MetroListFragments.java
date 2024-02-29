@@ -34,7 +34,7 @@ public class MetroListFragments extends Fragment {
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapter = new MetroLinesCustomAdapter();
+        adapter = new MetroLinesCustomAdapter(recyclerView);
         recyclerView.setAdapter(adapter);
         return result;
     }

@@ -29,6 +29,8 @@ import uqac.dim.rse.fragments.TrainListFragment;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
+    public static MainActivity instance;
+
     private RequestQueue requestQueue = null;
 
     private GoogleMap map;
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MainActivity.instance = this;
 
         requestQueue = Volley.newRequestQueue(this);
         this.dataManager = new DataManager(this);
@@ -96,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        this.hideAllFragments();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (id == R.id.metro_list_menu) {
             if (fragmentManager.findFragmentByTag("metroListFragTag") != null) {
@@ -103,37 +109,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             } else {
                 fragmentManager.beginTransaction().add(R.id.fragment_container_view, new MetroListFragments(), "metroListFragTag").commit();
             }
-
-            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentById(R.id.main_map_fragment)).commit();
-            if (fragmentManager.findFragmentByTag("trainListFragTag") != null) {
-                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("trainListFragTag")).commit();
-            }
         } else if (id == R.id.map_menu){
             fragmentManager.beginTransaction().show(fragmentManager.findFragmentById(R.id.main_map_fragment)).commit();
-
-            if (fragmentManager.findFragmentByTag("metroListFragTag") != null) {
-                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("metroListFragTag")).commit();
-
-            }
-            if (fragmentManager.findFragmentByTag("trainListFragTag") != null) {
-                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("trainListFragTag")).commit();
-            }
         } else if (id == R.id.train_list_menu) {
             if (fragmentManager.findFragmentByTag("trainListFragTag") != null) {
                 fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("trainListFragTag")).commit();
             } else {
                 fragmentManager.beginTransaction().add(R.id.fragment_container_view, new TrainListFragment(), "trainListFragTag").commit();
             }
-
-            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentById(R.id.main_map_fragment)).commit();
-            if (fragmentManager.findFragmentByTag("metroListFragTag") != null) {
-                fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("metroListFragTag")).commit();
-            }
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.my_drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.my_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void hideAllFragments() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().hide(fragmentManager.findFragmentById(R.id.main_map_fragment)).commit();
+
+        if (fragmentManager.findFragmentByTag("metroListFragTag") != null) {
+            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("metroListFragTag")).commit();
+        }
+
+        if (fragmentManager.findFragmentByTag("trainListFragTag") != null) {
+            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("trainListFragTag")).commit();
+        }
+
+        if (fragmentManager.findFragmentByTag("routeListFragTag") != null) {
+            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("routeListFragTag")).commit();
+        }
     }
 
     public void requestStarAPI(String url, Response.Listener<String> onSuccess, Response.ErrorListener onError) {
