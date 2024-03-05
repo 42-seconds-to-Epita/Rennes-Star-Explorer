@@ -15,4 +15,8 @@
         android:id="@+id/train_list_menu"
         android:title="Rames de métros" />
 
+    <item
+        android:id="@+id/alert_list_menu"
+        android:title="Infos Alertes" />
+
 </menu>

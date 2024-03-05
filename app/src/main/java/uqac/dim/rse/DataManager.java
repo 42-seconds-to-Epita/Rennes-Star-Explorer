@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import uqac.dim.rse.objects.ALine;
 import uqac.dim.rse.objects.AMarker;
+import uqac.dim.rse.objects.Alert;
 import uqac.dim.rse.objects.LineRoute;
 import uqac.dim.rse.objects.Lines.BusLine;
 import uqac.dim.rse.objects.Lines.MetroLine;
@@ -40,6 +41,8 @@ public class DataManager {
     public HashMap<String, LineRoute> allLinesRoutes = new HashMap<>();
 
     public List<SubwayTrain> subwayTrains = new ArrayList<>();
+
+    public List<Alert> alertList = new ArrayList<>();
 
     public DataManager(MainActivity main) {
         this.main = main;
@@ -328,6 +331,35 @@ public class DataManager {
                             train.idLine = Integer.parseInt((String) tempJson.get("idligne"));
 
                             this.subwayTrains.add(train);
+                        }
+                    } catch (ParseException ex) {
+                        Log.i("DIM", "Error while parsing json 2");
+                    }
+                }, error -> Log.i("DIM", "Error while loading metro stations 2"));
+    }
+
+    public void Alert() {
+        // Alert https://data.explore.star.fr/explore/dataset/tco-busmetro-trafic-alertes-tr/information/
+        this.main.requestStarAPI("https://data.explore.star.fr/api/explore/v2.1/catalog/datasets/tco-busmetro-trafic-alertes-tr/records?limit=100",
+                response -> {
+                    try {
+                        JSONObject json = (JSONObject) parser.parse(response);
+                        for (Object object : ((JSONArray) Objects.requireNonNull(json.get("results")))) {
+                            JSONObject tempJson = (JSONObject) object;
+                            Alert alert = new Alert();
+                            alert.name = (String) tempJson.get("titre");
+                            alert.id = (String) tempJson.get("idperturbation");
+                            alert.decription = (String) tempJson.get("description");
+                            alert.niveau = (String) (tempJson.get("niveau").toString());
+                            alert.debut = (String) tempJson.get("debutvalidite");
+                            alert.fin = (String) tempJson.get("finvalidite");
+                            alert.idligne = (String) tempJson.get("idligne");
+                            alert.nomligne = (String) tempJson.get("nomcourtligne");
+                            alert.url = (String) tempJson.get("url");
+                            alert.datepublication = (String) tempJson.get("publication");
+
+
+                            this.alertList.add(alert);
                         }
                     } catch (ParseException ex) {
                         Log.i("DIM", "Error while parsing json 2");
