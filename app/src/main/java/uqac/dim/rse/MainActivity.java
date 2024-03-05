@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Datas used for map display
         this.dataManager.loadMapData();
-        this.dataManager.Alert();
+        this.dataManager.LoadAlerts();
     }
 
     @Override
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             } else {
                 fragmentManager.beginTransaction().add(R.id.fragment_container_view, new MetroListFragments(), "metroListFragTag").commit();
             }
-        } else if (id == R.id.map_menu){
+        } else if (id == R.id.map_menu) {
             fragmentManager.beginTransaction().show(fragmentManager.findFragmentById(R.id.main_map_fragment)).commit();
         } else if (id == R.id.train_list_menu) {
             if (fragmentManager.findFragmentByTag("trainListFragTag") != null) {
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             } else {
                 fragmentManager.beginTransaction().add(R.id.fragment_container_view, new TrainListFragment(), "trainListFragTag").commit();
             }
-        }else if (id == R.id.alert_list_menu) {
+        } else if (id == R.id.alert_list_menu) {
             if (fragmentManager.findFragmentByTag("alertListFragTag") != null) {
                 fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("alertListFragTag")).commit();
             } else {

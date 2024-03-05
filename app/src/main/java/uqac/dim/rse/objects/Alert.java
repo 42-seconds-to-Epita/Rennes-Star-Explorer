@@ -5,14 +5,13 @@ public class Alert {
     public String id;
 
     public String decription;
-    public String niveau;
+    public String level;
 
-    public String debut;
-
-    public String fin;
-    public String idligne;
-    public String nomligne;
+    public String start;
+    public String end;
+    public String lineId;
+    public String lineName;
 
     public String url;
-    public String datepublication;
+    public String publicationDate;
 }

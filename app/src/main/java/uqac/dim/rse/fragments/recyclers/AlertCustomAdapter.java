@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import uqac.dim.rse.DataManager;
 import uqac.dim.rse.R;
 import uqac.dim.rse.objects.Alert;
-import uqac.dim.rse.objects.SubwayTrain;
 
 public class AlertCustomAdapter extends RecyclerView.Adapter<AlertCustomAdapter.AlertListViewHolder> {
 
@@ -51,24 +50,23 @@ public class AlertCustomAdapter extends RecyclerView.Adapter<AlertCustomAdapter.
 
     @Override
     public void onBindViewHolder(final AlertCustomAdapter.AlertListViewHolder holder, final int listPosition) {
-        Alert alert = DataManager.instance.alertList.get(listPosition);
+        Alert alert = DataManager.instance.alerts.get(listPosition);
 
         if (alert == null) {
             return;
         }
 
         holder.textTitle.setText(alert.name);
-        holder.textName.setText(String.format("Niveau : %s", alert.niveau.substring(2, alert.niveau.length() - 2)));
-        holder.textCapacity.setText(String.format("Ligne : %s", alert.nomligne));
-        holder.textDate.setText(String.format("Debut : %s", alert.debut.substring(0, 10)));
-        holder.textLength.setText(String.format("Fin : %s", alert.fin.substring(0, 10)));
+        holder.textName.setText(String.format("Niveau : %s", alert.level.substring(2, alert.level.length() - 2)));
+        holder.textCapacity.setText(String.format("Ligne : %s", alert.lineName));
+        holder.textDate.setText(String.format("Debut : %s", alert.start.substring(0, 10)));
+        holder.textLength.setText(String.format("Fin : %s", alert.end.substring(0, 10)));
         holder.textDesc.setText(String.format(alert.decription));
     }
 
     @Override
     public int getItemCount() {
-        Log.i("DIM", String.valueOf(DataManager.instance.alertList.size()));
-        return DataManager.instance.alertList.size();
+        return DataManager.instance.alerts.size();
     }
 }
 

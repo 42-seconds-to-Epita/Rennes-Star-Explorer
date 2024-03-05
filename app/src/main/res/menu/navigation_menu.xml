@@ -17,6 +17,6 @@
 
     <item
         android:id="@+id/alert_list_menu"
-        android:title="Infos Alertes" />
+        android:title="Alertes Trafic" />
 
 </menu>

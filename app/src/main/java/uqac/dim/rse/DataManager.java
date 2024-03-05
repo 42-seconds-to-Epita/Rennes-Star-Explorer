@@ -42,7 +42,7 @@ public class DataManager {
 
     public List<SubwayTrain> subwayTrains = new ArrayList<>();
 
-    public List<Alert> alertList = new ArrayList<>();
+    public List<Alert> alerts = new ArrayList<>();
 
     public DataManager(MainActivity main) {
         this.main = main;
@@ -338,7 +338,7 @@ public class DataManager {
                 }, error -> Log.i("DIM", "Error while loading metro stations 2"));
     }
 
-    public void Alert() {
+    public void LoadAlerts() {
         // Alert https://data.explore.star.fr/explore/dataset/tco-busmetro-trafic-alertes-tr/information/
         this.main.requestStarAPI("https://data.explore.star.fr/api/explore/v2.1/catalog/datasets/tco-busmetro-trafic-alertes-tr/records?limit=100",
                 response -> {
@@ -347,23 +347,24 @@ public class DataManager {
                         for (Object object : ((JSONArray) Objects.requireNonNull(json.get("results")))) {
                             JSONObject tempJson = (JSONObject) object;
                             Alert alert = new Alert();
+
                             alert.name = (String) tempJson.get("titre");
                             alert.id = (String) tempJson.get("idperturbation");
                             alert.decription = (String) tempJson.get("description");
-                            alert.niveau = (String) (tempJson.get("niveau").toString());
-                            alert.debut = (String) tempJson.get("debutvalidite");
-                            alert.fin = (String) tempJson.get("finvalidite");
-                            alert.idligne = (String) tempJson.get("idligne");
-                            alert.nomligne = (String) tempJson.get("nomcourtligne");
+                            alert.level = (String) (tempJson.get("niveau").toString());
+                            alert.start = (String) tempJson.get("debutvalidite");
+                            alert.end = (String) tempJson.get("finvalidite");
+                            alert.lineId = (String) tempJson.get("idligne");
+                            alert.lineName = (String) tempJson.get("nomcourtligne");
                             alert.url = (String) tempJson.get("url");
-                            alert.datepublication = (String) tempJson.get("publication");
+                            alert.publicationDate = (String) tempJson.get("publication");
 
 
-                            this.alertList.add(alert);
+                            this.alerts.add(alert);
                         }
                     } catch (ParseException ex) {
                         Log.i("DIM", "Error while parsing json 2");
                     }
-                }, error -> Log.i("DIM", "Error while loading metro stations 2"));
+                }, error -> Log.i("DIM", "Error while loading alerts"));
     }
 }
