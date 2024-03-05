@@ -24,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
 
+import uqac.dim.rse.fragments.AlertListFragments;
 import uqac.dim.rse.fragments.MetroListFragments;
 import uqac.dim.rse.fragments.TrainListFragment;
 
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Datas used for map display
         this.dataManager.loadMapData();
+        this.dataManager.LoadAlerts();
     }
 
     @Override
@@ -109,13 +111,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             } else {
                 fragmentManager.beginTransaction().add(R.id.fragment_container_view, new MetroListFragments(), "metroListFragTag").commit();
             }
-        } else if (id == R.id.map_menu){
+        } else if (id == R.id.map_menu) {
             fragmentManager.beginTransaction().show(fragmentManager.findFragmentById(R.id.main_map_fragment)).commit();
         } else if (id == R.id.train_list_menu) {
             if (fragmentManager.findFragmentByTag("trainListFragTag") != null) {
                 fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("trainListFragTag")).commit();
             } else {
                 fragmentManager.beginTransaction().add(R.id.fragment_container_view, new TrainListFragment(), "trainListFragTag").commit();
+            }
+        } else if (id == R.id.alert_list_menu) {
+            if (fragmentManager.findFragmentByTag("alertListFragTag") != null) {
+                fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("alertListFragTag")).commit();
+            } else {
+                fragmentManager.beginTransaction().add(R.id.fragment_container_view, new AlertListFragments(), "alertListFragTag").commit();
             }
         }
 
@@ -138,6 +146,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (fragmentManager.findFragmentByTag("routeListFragTag") != null) {
             fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("routeListFragTag")).commit();
+        }
+
+        if (fragmentManager.findFragmentByTag("alertListFragTag") != null) {
+            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("alertListFragTag")).commit();
         }
     }
 
