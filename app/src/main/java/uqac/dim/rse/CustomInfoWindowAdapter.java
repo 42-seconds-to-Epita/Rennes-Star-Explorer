@@ -1,10 +1,7 @@
 package uqac.dim.rse;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,14 +10,12 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
-import java.io.InputStream;
-
 import uqac.dim.rse.objects.AMarker;
 import uqac.dim.rse.objects.LineRoute;
 import uqac.dim.rse.objects.Lines.MetroLine;
 import uqac.dim.rse.objects.markers.MetroStationMarker;
 
-class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private final View mContentsMetro;
 

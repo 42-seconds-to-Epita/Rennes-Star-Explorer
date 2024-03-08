@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import uqac.dim.rse.R;
-import uqac.dim.rse.fragments.recyclers.MetroLinesCustomAdapter;
 import uqac.dim.rse.fragments.recyclers.TrainCustomAdapter;
 
 public class TrainListFragment extends Fragment {

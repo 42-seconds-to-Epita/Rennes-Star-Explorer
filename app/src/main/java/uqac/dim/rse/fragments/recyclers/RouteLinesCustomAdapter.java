@@ -5,8 +5,10 @@ import static uqac.dim.rse.utils.ColorConverter.hexToArgb;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,6 +27,8 @@ import java.util.List;
 import uqac.dim.rse.DataManager;
 import uqac.dim.rse.MainActivity;
 import uqac.dim.rse.R;
+import uqac.dim.rse.fragments.RouteListListFragments;
+import uqac.dim.rse.fragments.RouteMapFragment;
 import uqac.dim.rse.objects.LineRoute;
 
 public class RouteLinesCustomAdapter extends RecyclerView.Adapter<RouteLinesCustomAdapter.RouteListViewHolder> {
@@ -49,6 +53,9 @@ public class RouteLinesCustomAdapter extends RecyclerView.Adapter<RouteLinesCust
         TextView textPMR;
         MapView mapView;
         GoogleMap map;
+        Button mapButton;
+        Button listButton;
+        Polyline currentPolyline;
 
         public RouteListViewHolder(View itemView) {
             super(itemView);
@@ -59,6 +66,8 @@ public class RouteLinesCustomAdapter extends RecyclerView.Adapter<RouteLinesCust
             this.textLength = itemView.findViewById(R.id.route_list_card_length);
             this.textPMR = itemView.findViewById(R.id.route_list_card_pmr);
             this.mapView = (MapView) itemView.findViewById(R.id.route_list_card_map);
+            this.mapButton = itemView.findViewById(R.id.list_route_card_map_button);
+            this.listButton = itemView.findViewById(R.id.list_route_card_list_button);
             if (mapView != null) {
                 // Initialise the MapView
                 mapView.onCreate(null);
@@ -83,7 +92,7 @@ public class RouteLinesCustomAdapter extends RecyclerView.Adapter<RouteLinesCust
                 bounds.include(pos);
             }
 
-            map.addPolyline(polylineOptions);
+            currentPolyline = map.addPolyline(polylineOptions);
             map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 15));
         }
     }
@@ -131,10 +140,62 @@ public class RouteLinesCustomAdapter extends RecyclerView.Adapter<RouteLinesCust
 
         holder.textLength.setText("Longueur : " + route.length);
         holder.textPMR.setText(route.isPMR ? "Est accessible aux PMR" : "N'est pas accessible aux PMR");
+
+        holder.mapButton.setOnClickListener(v -> this.makeRouteMap(route));
+        holder.listButton.setOnClickListener(v -> this.makeRouteList(route));
+
+        if (holder.map == null) {
+            return;
+        }
+
+        if (holder.currentPolyline != null) {
+            holder.currentPolyline.remove();
+        }
+
+        PolylineOptions polylineOptions = new PolylineOptions().width(10)
+                .color(hexToArgb(holder.data.color));
+        LatLngBounds.Builder bounds = new LatLngBounds.Builder();
+
+        for (LatLng pos : holder.data.drawPoints.values()) {
+            polylineOptions.add(pos);
+            bounds.include(pos);
+        }
+
+        holder.currentPolyline = holder.map.addPolyline(polylineOptions);
+        holder.map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 15));
     }
 
     @Override
     public int getItemCount() {
         return this.routes.size();
+    }
+
+    private void makeRouteMap(LineRoute route) {
+        MainActivity.instance.hideAllFragments();
+        FragmentManager fragmentManager = MainActivity.instance.getSupportFragmentManager();
+        if (fragmentManager.findFragmentByTag("routeMapFrag") != null) {
+            fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("routeMapFrag")).commit();
+        } else {
+            fragmentManager.beginTransaction().add(R.id.fragment_container_view, new RouteMapFragment(route), "routeMapFrag").commit();
+        }
+
+        if (RouteMapFragment.instance != null) {
+            RouteMapFragment.instance.defaultRoute = route;
+            RouteMapFragment.instance.updateMap();
+        }
+    }
+
+    private void makeRouteList(LineRoute route) {
+        MainActivity.instance.hideAllFragments();
+        FragmentManager fragmentManager = MainActivity.instance.getSupportFragmentManager();
+        if (fragmentManager.findFragmentByTag("routeListListFrag") != null) {
+            fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("routeListListFrag")).commit();
+        } else {
+            fragmentManager.beginTransaction().add(R.id.fragment_container_view, new RouteListListFragments(route), "routeListListFrag").commit();
+        }
+
+        if (RouteLinesListCustomAdapter.instance != null) {
+            RouteLinesListCustomAdapter.instance.currentRoute = route;
+        }
     }
 }

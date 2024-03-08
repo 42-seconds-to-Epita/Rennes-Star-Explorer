@@ -151,6 +151,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (fragmentManager.findFragmentByTag("alertListFragTag") != null) {
             fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("alertListFragTag")).commit();
         }
+
+        if (fragmentManager.findFragmentByTag("routeMapFrag") != null) {
+            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("routeMapFrag")).commit();
+        }
+
+        if (fragmentManager.findFragmentByTag("routeListListFrag") != null) {
+            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("routeListListFrag")).commit();
+        }
     }
 
     public void requestStarAPI(String url, Response.Listener<String> onSuccess, Response.ErrorListener onError) {

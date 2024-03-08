@@ -302,6 +302,7 @@ public class DataManager {
                                     this.allLinesRoutes.get(parentId).commercialsStops.put(key, metroStationMarker);
                                 }
                             }
+                            this.allLinesRoutes.get(parentId).commercialsStopsIds.put(key, value);
                         }
                     } catch (ParseException ex) {
                         Log.i("DIM", "Error while parsing json 5");

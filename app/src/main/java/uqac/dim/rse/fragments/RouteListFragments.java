@@ -18,7 +18,6 @@ import java.util.List;
 
 import uqac.dim.rse.MainActivity;
 import uqac.dim.rse.R;
-import uqac.dim.rse.fragments.recyclers.MetroLinesCustomAdapter;
 import uqac.dim.rse.fragments.recyclers.RouteLinesCustomAdapter;
 import uqac.dim.rse.objects.LineRoute;
 
@@ -28,7 +27,7 @@ public class RouteListFragments extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private static RecyclerView recyclerView;
 
-    private List<LineRoute> defaultRoutes = new ArrayList<>();
+    private List<LineRoute> defaultRoutes;
 
     OnBackPressedCallback callback = new OnBackPressedCallback(true) {
         @Override
@@ -74,6 +73,9 @@ public class RouteListFragments extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         if (hidden) {
             callback.remove();
+        } else {
+            requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+            adapter.notifyDataSetChanged();
         }
     }
 }
