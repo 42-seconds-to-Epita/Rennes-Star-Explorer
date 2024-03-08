@@ -10,9 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import uqac.dim.rse.DataManager;
-import uqac.dim.rse.DownloadImageTask;
 import uqac.dim.rse.R;
-import uqac.dim.rse.objects.Lines.MetroLine;
 import uqac.dim.rse.objects.SubwayTrain;
 
 public class TrainCustomAdapter extends RecyclerView.Adapter<TrainCustomAdapter.TrainListViewHolder> {

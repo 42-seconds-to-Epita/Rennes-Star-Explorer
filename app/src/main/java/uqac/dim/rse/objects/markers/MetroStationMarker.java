@@ -2,9 +2,6 @@ package uqac.dim.rse.objects.markers;
 
 import android.util.Pair;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.ArrayList;
 import java.util.List;
 

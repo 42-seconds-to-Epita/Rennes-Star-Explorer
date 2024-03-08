@@ -21,4 +21,5 @@ public class LineRoute {
 
     public HashMap<Integer, LatLng> drawPoints = new HashMap<>();
     public HashMap<Integer, AMarker> commercialsStops = new HashMap<>();
+    public HashMap<Integer, Integer> commercialsStopsIds = new HashMap<>();
 }

@@ -1,6 +1,5 @@
 package uqac.dim.rse.objects;
 
-import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import java.util.HashMap;
