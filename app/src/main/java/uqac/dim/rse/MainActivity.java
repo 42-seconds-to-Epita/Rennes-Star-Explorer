@@ -1,5 +1,11 @@
 package uqac.dim.rse;
 
+import static uqac.dim.rse.utils.ColorConverter.hexToArgb;
+
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,10 +13,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
-
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,20 +24,29 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import uqac.dim.rse.fragments.AlertListFragments;
 import uqac.dim.rse.fragments.MetroListFragments;
 import uqac.dim.rse.fragments.TrainListFragment;
+import uqac.dim.rse.objects.LineRoute;
+import uqac.dim.rse.objects.markers.MetroStationMarker;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
     public static MainActivity instance;
 
+    private final List<Polyline> displayPoly = new ArrayList<>();
+
     private RequestQueue requestQueue = null;
 
     private GoogleMap map;
-    private DataManager dataManager;
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
@@ -48,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MainActivity.instance = this;
 
         requestQueue = Volley.newRequestQueue(this);
-        this.dataManager = new DataManager(this);
+        DataManager dataManager = new DataManager(this);
 
         // Map
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -66,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         navigationView.setNavigationItemSelectedListener(this);
 
         // Datas used for map display
-        this.dataManager.loadMapData();
-        this.dataManager.LoadAlerts();
+        dataManager.loadMapData();
+        dataManager.LoadAlerts();
     }
 
     @Override
@@ -86,6 +97,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         this.map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
+        this.map.setOnMarkerClickListener(marker -> {
+            for (Polyline polyline : displayPoly) {
+                polyline.remove();
+            }
+
+            if (marker.getTag() instanceof MetroStationMarker) {
+                MetroStationMarker data = (MetroStationMarker) marker.getTag();
+
+                for (Integer subStationId : data.subStationsId) {
+                    for (LineRoute lineRoute : DataManager.instance.allLinesRoutes.values()) {
+                        if (!lineRoute.commercialsStopsIds.containsValue(subStationId)) {
+                            continue;
+                        }
+
+                        PolylineOptions polylineOptions = new PolylineOptions().width(10)
+                                .color(hexToArgb(lineRoute.color));
+                        LatLngBounds.Builder bounds = new LatLngBounds.Builder();
+
+                        for (LatLng pos : lineRoute.drawPoints.values()) {
+                            polylineOptions.add(pos);
+                            bounds.include(pos);
+                        }
+                        displayPoly.add(map.addPolyline(polylineOptions));
+                    }
+                }
+            }
+            return false;
+        });
     }
 
 
