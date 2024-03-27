@@ -37,43 +37,43 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Rennes (J.F. Kennedy) -> Rennes (La Poterie)"
+                android:text="@string/route_list_default_title"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/route_list_card_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="Ligne a, Aller" />
+                android:layout_gravity="start"
+                android:text="@string/route_list_default_name" />
 
             <TextView
                 android:id="@+id/route_list_card_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="Départ : J.F. Kennedy" />
+                android:layout_gravity="start"
+                android:text="@string/route_list_default_start" />
 
             <TextView
                 android:id="@+id/route_list_card_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="Arrivée : La Poterie" />
+                android:layout_gravity="start"
+                android:text="@string/route_list_default_end" />
 
             <TextView
                 android:id="@+id/route_list_card_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="Longueur : 8635.9 mètres" />
+                android:layout_gravity="start"
+                android:text="@string/route_list_default_length" />
 
             <TextView
                 android:id="@+id/route_list_card_pmr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="Est accessible aux PMR" />
+                android:layout_gravity="start"
+                android:text="@string/route_list_default_pmr" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -86,14 +86,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
                     android:layout_weight="50"
-                    android:text="Voir sur la carte" />
+                    android:text="@string/route_list_map_button" />
 
                 <Button
                     android:id="@+id/list_route_card_list_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="50"
-                    android:text="Voir les arrêts" />
+                    android:text="@string/route_list_map_list" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

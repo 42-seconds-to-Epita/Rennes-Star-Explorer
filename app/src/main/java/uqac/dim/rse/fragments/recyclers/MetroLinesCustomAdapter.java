@@ -52,8 +52,7 @@ public class MetroLinesCustomAdapter extends RecyclerView.Adapter<MetroLinesCust
 
         view.setOnClickListener(v -> onClick(view));
 
-        MetroListViewHolder metroListViewHolder = new MetroListViewHolder(view);
-        return metroListViewHolder;
+        return new MetroListViewHolder(view);
     }
 
     @Override

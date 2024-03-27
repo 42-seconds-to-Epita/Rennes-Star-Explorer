@@ -41,8 +41,7 @@ public class TrainCustomAdapter extends RecyclerView.Adapter<TrainCustomAdapter.
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.train_list_card_view, parent, false);
 
-        TrainCustomAdapter.TrainListViewHolder trainListViewHolder = new TrainCustomAdapter.TrainListViewHolder(view);
-        return trainListViewHolder;
+        return new TrainListViewHolder(view);
     }
 
     @Override

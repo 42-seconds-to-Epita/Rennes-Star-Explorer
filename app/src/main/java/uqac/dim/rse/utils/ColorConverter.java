@@ -15,9 +15,8 @@ public class ColorConverter {
             int blue = Integer.parseInt(hexColor.substring(5, 7), 16);
 
             // Create the ARGB integer with full alpha (255)
-            int argb = (255 << 24) | (red << 16) | (green << 8) | blue;
 
-            return argb;
+            return (255 << 24) | (red << 16) | (green << 8) | blue;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid hex color format", e);
         }

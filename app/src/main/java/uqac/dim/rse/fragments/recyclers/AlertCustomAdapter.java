@@ -43,8 +43,7 @@ public class AlertCustomAdapter extends RecyclerView.Adapter<AlertCustomAdapter.
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.alert_list_card_view, parent, false);
 
-        AlertCustomAdapter.AlertListViewHolder alertListViewHolder = new AlertCustomAdapter.AlertListViewHolder(view);
-        return alertListViewHolder;
+        return new AlertCustomAdapter.AlertListViewHolder(view);
     }
 
     @Override

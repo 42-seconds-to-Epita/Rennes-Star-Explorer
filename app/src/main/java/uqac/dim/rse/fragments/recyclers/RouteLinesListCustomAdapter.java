@@ -51,8 +51,7 @@ public class RouteLinesListCustomAdapter extends RecyclerView.Adapter<RouteLines
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.route_list_list_card_view, parent, false);
 
-        RouteLinesListViewHolder metroListViewHolder = new RouteLinesListViewHolder(view);
-        return metroListViewHolder;
+        return new RouteLinesListViewHolder(view);
     }
 
     @Override

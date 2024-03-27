@@ -19,25 +19,25 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Station name"
+            android:text="@string/metro_marker_info_default_name"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/adress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Station adress" />
+            android:text="@string/metro_marker_info_default_adress" />
 
         <TextView
             android:id="@+id/PMR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Accessible pour les PMR" />
+            android:text="@string/metro_marker_info_default_pmr" />
 
         <TextView
             android:id="@+id/techcode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Code techinique ligne A" />
+            android:text="@string/metro_marker_info_default_techcode" />
     </LinearLayout>
 </LinearLayout>

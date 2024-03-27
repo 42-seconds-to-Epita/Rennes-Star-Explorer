@@ -2,4 +2,16 @@
     <string name="app_name">Rennes Star Explorer</string>
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
+    <string name="route_list_default_title"><![CDATA[Rennes (J.F. Kennedy) -> Rennes (La Poterie)]]></string>
+    <string name="route_list_default_name">Ligne a, Aller</string>
+    <string name="route_list_default_start">Départ : J.F. Kennedy</string>
+    <string name="route_list_default_end">Arrivée : La Poterie</string>
+    <string name="route_list_default_length">Longueur : 8635.9 mètres</string>
+    <string name="route_list_default_pmr">Est accessible aux PMR</string>
+    <string name="route_list_map_button">Voir sur la carte</string>
+    <string name="route_list_map_list">Voir les arrêts</string>
+    <string name="metro_marker_info_default_name">Station name</string>
+    <string name="metro_marker_info_default_adress">Station adress</string>
+    <string name="metro_marker_info_default_pmr">Accessible pour les PMR</string>
+    <string name="metro_marker_info_default_techcode">Code techinique ligne A</string>
 </resources>
