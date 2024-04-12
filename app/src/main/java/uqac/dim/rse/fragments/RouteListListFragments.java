@@ -33,8 +33,8 @@ public class RouteListListFragments extends Fragment {
 
     public static RouteListListFragments instance;
 
-    private final DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss+00:00", Locale.FRANCE);
-    private final DateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss+0100", Locale.FRANCE);
+    private final DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.FRANCE);
+    private final DateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.FRANCE);
 
     private final JSONParser parser = new JSONParser();
 
@@ -96,8 +96,8 @@ public class RouteListListFragments extends Fragment {
     }
 
     private void updateNextTrain() {
-        // Next train at station https://data.explore.star.fr/explore/dataset/tco-metro-circulation-passages-tr/information/
-        MainActivity.instance.requestStarAPI("https://data.explore.star.fr/api/explore/v2.1/catalog/datasets/tco-metro-circulation-passages-tr/records?limit=-1&refine=precision%3ATemps%20r%C3%A9el",
+        // Next train at station https://data.explore.star.fr/explore/dataset/tco-metro-circulation-deux-prochains-passages-tr/information/
+        MainActivity.instance.requestStarAPI("https://data.explore.star.fr/api/explore/v2.1/catalog/datasets/tco-metro-circulation-deux-prochains-passages-tr/records?limit=60",
                 response -> {
                     try {
                         ((RouteLinesListCustomAdapter) adapter).nextTrain.clear();
@@ -105,12 +105,16 @@ public class RouteListListFragments extends Fragment {
                         for (Object object : ((JSONArray) Objects.requireNonNull(json.get("results")))) {
                             JSONObject tempJson = (JSONObject) object;
                             int id = Integer.parseInt((String) tempJson.get("idarret"));
-                            String nextStop = (String) tempJson.get("arrivee");
+                            String nextStop = (String) tempJson.get("arriveefirsttrain");
+
+                            if (Objects.equals(nextStop, "Non desservi")) {
+                                continue;
+                            }
 
                             Date date;
 
                             if (nextStop == null || nextStop.equals("")) {
-                                nextStop = ((String) tempJson.get("depart")).replace("T", " ");
+                                nextStop = ((String) tempJson.get("arriveefirsttrain")).replace("T", " ");
                                 date = format1.parse(nextStop);
                                 date.setHours(date.getHours() + 1);
                             } else {
